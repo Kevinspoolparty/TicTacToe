@@ -12,3 +12,18 @@ C:\Users\marc.mueller\Desktop\TicTacToe\obj\Debug\net8.0\refint\TicTacToe.dll
 C:\Users\marc.mueller\Desktop\TicTacToe\obj\Debug\net8.0\TicTacToe.pdb
 C:\Users\marc.mueller\Desktop\TicTacToe\obj\Debug\net8.0\TicTacToe.genruntimeconfig.cache
 C:\Users\marc.mueller\Desktop\TicTacToe\obj\Debug\net8.0\ref\TicTacToe.dll
+Z:\mam Z\C#\TicTacToe\bin\Debug\net8.0\TicTacToe.exe
+Z:\mam Z\C#\TicTacToe\bin\Debug\net8.0\TicTacToe.deps.json
+Z:\mam Z\C#\TicTacToe\bin\Debug\net8.0\TicTacToe.runtimeconfig.json
+Z:\mam Z\C#\TicTacToe\bin\Debug\net8.0\TicTacToe.dll
+Z:\mam Z\C#\TicTacToe\bin\Debug\net8.0\TicTacToe.pdb
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.GeneratedMSBuildEditorConfig.editorconfig
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.AssemblyInfoInputs.cache
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.AssemblyInfo.cs
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.csproj.CoreCompileInputs.cache
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.sourcelink.json
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.dll
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\refint\TicTacToe.dll
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.pdb
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\TicTacToe.genruntimeconfig.cache
+Z:\mam Z\C#\TicTacToe\obj\Debug\net8.0\ref\TicTacToe.dll

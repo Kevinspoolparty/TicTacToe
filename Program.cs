@@ -26,9 +26,20 @@
                     if (playerChar1 == "" && playerChar2 == "")
                     {
                         Console.Write("Player 1, pick your symbol (anything goes): ");
-                        playerChar1 = Console.ReadLine();
+                        playerChar1 = Console.ReadLine().Trim();
                         Console.Write("Same thing for player 2: ");
-                        playerChar2 = Console.ReadLine();
+                        while (true)
+                        {
+                            playerChar2 = Console.ReadLine().Trim();
+                            if (playerChar2 != playerChar1)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("No two players can have the same character; choose a different one");
+                            }
+                        }
                     }
                     while (CheckEmptyFields() && !gameWon)
                     {
@@ -86,7 +97,8 @@
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine("\nThank you for playing!");
+                    Console.WriteLine("\nThank you for playing! (Press any key to close)");
+                    Console.ReadKey();
                     break;
                 }
             }
