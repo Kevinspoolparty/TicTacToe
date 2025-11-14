@@ -2,74 +2,79 @@
 {
     internal class Program
     {
-        static readonly Random rnd = new();
-        static string playerChar1 = "";
-        static string playerChar2 = "";
-        static int winningPlayer = 0;
-        static bool gameWon = false;
-        static readonly string[,] ticTacToeField =
+        private static readonly Random _rnd = new();
+        private static string _playerChar1 = "";
+        private static string _playerChar2 = "";
+        private static int _winningPlayer = 0;
+        private static bool _gameWon = false;
+        private static readonly string[,] _ticTacToeField =
         {
             {"/", "/", "/"},
             {"/", "/", "/"},
             {"/", "/", "/"}
         };
 
-        static void Main()
+        private static void Main()
         {
             Console.WriteLine("Welcome to good-old Tic Tac Toe! Are you a two-player Team (1) or is it you against the computer (2)?");
             string? input = Console.ReadLine();
 
             while (true)
             {
-                if (input == "1") // Player vs. Player
+                switch (input)
                 {
-                    if (playerChar1 == "" && playerChar2 == "")
+                    case "1": // Player vs. Player
                     {
-                        Console.Write("Player 1, pick your symbol (anything goes): ");
-                        playerChar1 = Console.ReadLine().Trim();
-                        Console.Write("Same thing for player 2: ");
-                        while (true)
+                        if (_playerChar1 == "" && _playerChar2 == "")
                         {
-                            playerChar2 = Console.ReadLine().Trim();
-                            if (playerChar2 != playerChar1)
+                            Console.Write("Player 1, pick your symbol (anything goes): ");
+                            _playerChar1 = Console.ReadLine().Trim();
+                            Console.Write("Same thing for player 2: ");
+                            while (true)
                             {
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("No two players can have the same character; choose a different one");
+                                _playerChar2 = Console.ReadLine().Trim();
+                                if (_playerChar2 != _playerChar1)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No two players can have the same character; choose a different one");
+                                }
                             }
                         }
+                        while (CheckEmptyFields() && !_gameWon)
+                        {
+                            PrintField();
+                            PlayerTurn(_playerChar1);
+                            PrintField();
+                            PlayerTurn(_playerChar2);
+                        }
+
+                        break;
                     }
-                    while (CheckEmptyFields() && !gameWon)
+                    case "2": // Player vs. CPU
                     {
-                        PrintField();
-                        PlayerTurn(playerChar1);
-                        PrintField();
-                        PlayerTurn(playerChar2);
+                        _playerChar1 = "X";
+                        _playerChar2 = "O";
+                        while (CheckEmptyFields() && !_gameWon)
+                        {
+                            PrintField();
+                            PlayerTurn(_playerChar1);
+                            CpuTurn(_playerChar2);
+                        }
+
+                        break;
                     }
-                }
-                else if (input == "2") // Player vs. CPU
-                {
-                    playerChar1 = "X";
-                    playerChar2 = "O";
-                    while (CheckEmptyFields() && !gameWon)
-                    {
-                        PrintField();
-                        PlayerTurn(playerChar1);
-                        CpuTurn(playerChar2);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input :( Session terminated");
-                    return;
+                    default:
+                        Console.WriteLine("Invalid input :( Session terminated");
+                        return;
                 }
 
-                if (winningPlayer != 0)
+                if (_winningPlayer != 0)
                 {
                     PrintField();
-                    Console.WriteLine($"\nThe game is over! Player {winningPlayer} has won!");
+                    Console.WriteLine($"\nThe game is over! Player {_winningPlayer} has won!");
                 }
                 else
                 {
@@ -81,13 +86,13 @@
                 if (Console.ReadLine() == "y")
                 {
                     // resetting the board
-                    winningPlayer = 0;
-                    gameWon = false;
-                    for (int i = 0; i < ticTacToeField.GetLength(0); i++)
+                    _winningPlayer = 0;
+                    _gameWon = false;
+                    for (int i = 0; i < _ticTacToeField.GetLength(0); i++)
                     {
-                        for (int j = 0; j < ticTacToeField.GetLength(1); j++)
+                        for (int j = 0; j < _ticTacToeField.GetLength(1); j++)
                         {
-                            ticTacToeField[i, j] = "/";
+                            _ticTacToeField[i, j] = "/";
                         }
                     }
 
@@ -103,18 +108,18 @@
                 }
             }
         }
-        static bool CheckForWin()
+        private static bool CheckForWin()
         {
-            if (CheckHorizontal(playerChar1) || CheckVertical(playerChar1) || CheckDiagonally(playerChar1))
+            if (CheckHorizontal(_playerChar1) || CheckVertical(_playerChar1) || CheckDiagonally(_playerChar1))
             {
-                winningPlayer = 1;
-                gameWon = true;
+                _winningPlayer = 1;
+                _gameWon = true;
                 return true;
             }
-            else if (CheckHorizontal(playerChar2) || CheckVertical(playerChar2) || CheckDiagonally(playerChar2))
+            else if (CheckHorizontal(_playerChar2) || CheckVertical(_playerChar2) || CheckDiagonally(_playerChar2))
             {
-                winningPlayer = 2;
-                gameWon = true;
+                _winningPlayer = 2;
+                _gameWon = true;
                 return true;
             }
             else
@@ -126,11 +131,11 @@
             {
                 List<bool> sameSymbols = [];
                 bool horizontalWin = false;
-                for (int row = 0; row < ticTacToeField.GetLength(0); row++)
+                for (int row = 0; row < _ticTacToeField.GetLength(0); row++)
                 {
-                    for (int field = 0; field < ticTacToeField.GetLength(1); field++)
+                    for (int field = 0; field < _ticTacToeField.GetLength(1); field++)
                     {
-                        sameSymbols.Add(ticTacToeField[row, field] == playerChar);
+                        sameSymbols.Add(_ticTacToeField[row, field] == playerChar);
                     }
                     if (CheckList(sameSymbols))
                     {
@@ -149,11 +154,11 @@
                 bool verticalWin = false;
                 List<bool> sameSymbols = [];
 
-                for (int field = 0; field < ticTacToeField.GetLength(1); field++)
+                for (int field = 0; field < _ticTacToeField.GetLength(1); field++)
                 {
-                    for (int row = 0; row < ticTacToeField.GetLength(0); row++)
+                    for (int row = 0; row < _ticTacToeField.GetLength(0); row++)
                     {
-                        sameSymbols.Add(ticTacToeField[row, field] == playerChar);
+                        sameSymbols.Add(_ticTacToeField[row, field] == playerChar);
                     }
                     if (CheckList(sameSymbols))
                     {
@@ -172,9 +177,9 @@
                 List<bool> sameSymbols = [];
 
                 // check from left to right
-                for (int i = 0; i < ticTacToeField.GetLength(0); i++)
+                for (int i = 0; i < _ticTacToeField.GetLength(0); i++)
                 {
-                    sameSymbols.Add(ticTacToeField[i, i] == playerChar);
+                    sameSymbols.Add(_ticTacToeField[i, i] == playerChar);
                 }
                 if (CheckList(sameSymbols))
                 {
@@ -183,36 +188,25 @@
 
                 // check from right to left
                 sameSymbols.Clear();
-                for (int i = 0; i < ticTacToeField.GetLength(0); i++)
+                for (int i = 0; i < _ticTacToeField.GetLength(0); i++)
                 {
-                    sameSymbols.Add(ticTacToeField[i, 2 - i] == playerChar);
+                    sameSymbols.Add(_ticTacToeField[i, 2 - i] == playerChar);
                 }
-                if (CheckList(sameSymbols))
-                {
-                    return true;
-                }
-                return false;
+                return CheckList(sameSymbols);
             }
             bool CheckList(List<bool> sameSymbols)
             {
-                if (sameSymbols.TrueForAll(x => x == true))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return sameSymbols.TrueForAll(x => x == true);
             }
         }
-        static bool CheckEmptyFields()
+        private static bool CheckEmptyFields()
         {
             bool emptyFields = false;
-            for (int i = 0; i < ticTacToeField.GetLength(0); i++)
+            for (int i = 0; i < _ticTacToeField.GetLength(0); i++)
             {
-                for (int j = 0; j < ticTacToeField.GetLength(1); j++)
+                for (int j = 0; j < _ticTacToeField.GetLength(1); j++)
                 {
-                    if (ticTacToeField[i, j] == "/")
+                    if (_ticTacToeField[i, j] == "/")
                     {
                         emptyFields = true;
                     }
@@ -220,71 +214,61 @@
             }
             return emptyFields;
         }
-        static void CpuTurn(string cpuCharacter)
+        private static void CpuTurn(string cpuCharacter)
         {
             // TODO: improve Enemy "AI"?
-            if (CheckEmptyFields() && !gameWon)
+            if (!CheckEmptyFields() || _gameWon) return;
+            while (true)
+            {
+                int row = _rnd.Next(0, 3);
+                int field = _rnd.Next(0, 3);
+                if (_ticTacToeField[row, field] == "/")
+                {
+                    _ticTacToeField[row, field] = cpuCharacter;
+                    break;
+                }
+            }
+            CheckForWin();
+        }
+        private static void PlayerTurn(string playerCharacter)
+        {
+            if (!CheckEmptyFields() || _gameWon) return;
+            Console.WriteLine($"\nWhere do you want to set your {playerCharacter}? Enter row number and field number (1-3)");
+            try
             {
                 while (true)
                 {
-                    int row = rnd.Next(0, 3);
-                    int field = rnd.Next(0, 3);
-                    if (ticTacToeField[row, field] == "/")
+                    Console.Write("Row: ");
+                    int row = int.Parse(Console.ReadLine()) - 1;
+                    Console.Write("Field: ");
+                    int field = int.Parse(Console.ReadLine()) - 1;
+                    if (_ticTacToeField[row, field] != "/")
                     {
-                        ticTacToeField[row, field] = cpuCharacter;
+                        Console.WriteLine("Field is already taken, pick a different one.");
+                    }
+                    else
+                    {
+                        _ticTacToeField[row, field] = playerCharacter;
                         break;
                     }
                 }
                 CheckForWin();
             }
-        }
-        static void PlayerTurn(string playerCharacter)
-        {
-            if (CheckEmptyFields() && !gameWon)
+            catch
             {
-                Console.WriteLine($"\nWhere do you want to set your {playerCharacter}? Enter row number and field number (1-3)");
-                try
-                {
-                    while (true)
-                    {
-                        Console.Write("Row: ");
-                        int row = int.Parse(Console.ReadLine()) - 1;
-                        Console.Write("Field: ");
-                        int field = int.Parse(Console.ReadLine()) - 1;
-                        if (ticTacToeField[row, field] != "/")
-                        {
-                            Console.WriteLine("Field is already taken, pick a different one.");
-                        }
-                        else
-                        {
-                            ticTacToeField[row, field] = playerCharacter;
-                            break;
-                        }
-                    }
-                    CheckForWin();
-                }
-                catch
-                {
-                    Console.WriteLine("Invalid Inputs. Turn skipped");
-                    return;
-                }
+                Console.WriteLine("Invalid Inputs. Turn skipped");
+                return;
             }
         }
-        static void PrintField()
+        private static void PrintField()
         {
             Console.Clear();
-            for (int i = 0; i < ticTacToeField.GetLength(0); i++)
+            for (int i = 0; i < _ticTacToeField.GetLength(0); i++)
             {
-                for (int j = 0; j < ticTacToeField.GetLength(1); j++)
+                for (int j = 0; j < _ticTacToeField.GetLength(1); j++)
                 {
-                    if (j == 2)
-                    {
-                        Console.Write($"{ticTacToeField[i, j]}\n");
-                    }
-                    else
-                    {
-                        Console.Write($"{ticTacToeField[i, j]} | ");
-                    }
+                    Console.Write(_ticTacToeField[i, j]);
+                    Console.Write(j == 2 ? "\n" : " | ");
                 }
             }
         }
